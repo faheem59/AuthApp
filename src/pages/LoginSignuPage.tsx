@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid" 
+import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card"
 import CardHeader from "@mui/material/CardHeader"
@@ -11,19 +11,17 @@ import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import { Props } from '../utils/Types';
 
-
-
 const LoginSignupPage: React.FC<Props> = ({ formType }) => {
     const navigate = useNavigate();
 
     return (
-        <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Container maxWidth="sm" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Card sx={{ width: '100%', padding: 3 }}>
                 <CardHeader
                     title={
                         <Box display="flex" justifyContent="space-between">
                             <Typography
-                                variant="h5"  
+                                variant="h5"
                                 onClick={() => navigate('/login')}
                                 sx={{
                                     cursor: 'pointer',

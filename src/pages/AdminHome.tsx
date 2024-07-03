@@ -9,28 +9,33 @@ import { UserData } from '../utils/Types';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/commonComponet/Loader';
 
-
 const AdminHomePage = () => {
-    const { users} = useAuth();
+    const { users } = useAuth();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false); 
+
+    
+    const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
 
     const nonAdminUsers = users.filter(user => user.role !== 'admin');
 
     const handleEdit = (userId: string) => {
-        setLoading(true); 
-        navigate(`/profile/${userId}`);
+        setLoadingStates(prevLoadingStates => ({
+            ...prevLoadingStates,
+            [userId]: true
+        }));
+
         setTimeout(() => {
-            setLoading(false); 
-        }, 2000);
+            navigate(`/profile/${userId}`);
+            setLoadingStates(prevLoadingStates => ({
+                ...prevLoadingStates,
+                [userId]: false
+            }));
+        }, 1000);
     };
 
     return (
         <>
-            {loading && <Loader />} 
-           
             <Grid container spacing={2} justifyContent="center" alignItems="center" marginTop={4}>
-              
                 {nonAdminUsers.map((user: UserData) => (
                     <Grid item key={user.email} xs={12} sm={6} md={6} lg={3}>
                         <Card>
@@ -49,8 +54,10 @@ const AdminHomePage = () => {
                                     }}
                                     variant="contained"
                                     color="primary"
-                                    style={{ marginTop: '10px' }}
+                                    style={{ marginTop: '10px', width: "100%" }}
+                                    disabled={loadingStates[String(user.id)] || false} 
                                 >
+                                    {loadingStates[String(user.id)] && <Loader />}
                                     Edit
                                 </Button>
                             </CardContent>
