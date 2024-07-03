@@ -20,7 +20,7 @@ const SignupForm = () => {
     const { handleSubmit, control, formState: { errors } } = useForm<UserData>({
         resolver: yupResolver(SignUpschema),
     });
-    const { login, users } = useAuth();
+    const {  users } = useAuth();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false); 
 
@@ -53,7 +53,7 @@ const SignupForm = () => {
 
             const newUser: UserData = { ...data, id: (existingUsers.length + 1).toString() };
             await localforage.setItem('users', [...existingUsers, newUser]);
-            login(newUser);
+            // login(newUser);
             setError(null);
             alert('User registered successfully');
             navigate('/login');
