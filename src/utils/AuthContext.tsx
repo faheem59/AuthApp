@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         };
 
         fetchUserData();
-    }, []);
+    }, [setUsers]);
 
     const login = async (userData: UserData) => {
         setIsAuthenticated(true);
@@ -47,6 +47,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const updatedUsers = [...users.filter(u => String(u.id) !== userData.id), userData];
             setUsers(updatedUsers);
             await localforage.setItem('users', updatedUsers);
+            setUsers(updatedUsers);
             console.log(updatedUsers)
             localStorage.setItem('currentUserId', String(userData.id));
         } catch (error) {

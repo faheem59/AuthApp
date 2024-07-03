@@ -54,7 +54,13 @@ const AdminHomePage = () => {
                                     }}
                                     variant="contained"
                                     color="primary"
-                                    style={{ marginTop: '10px', width: "100%" }}
+                                    sx={{ marginTop: '10px', width: "100%",
+                                        backgroundColor: 'black',
+                                        '&:hover': {
+                                            backgroundColor: '#333',
+                                        },
+
+                                    }}
                                     disabled={loadingStates[String(user.id)] || false} 
                                 >
                                     {loadingStates[String(user.id)] && <Loader />}

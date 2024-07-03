@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography";
 import MenuItem from '@mui/material/MenuItem';
 import { useLoginForm } from '../utils/CustomHooks/useLoginFrom';
 import { Controller } from 'react-hook-form';
 import { LoginFormInput } from '../utils/Types';
-import Loader from '../components/commonComponet/Loader';
-import FormLoginField from './commonComponet/FormLoginField';
+import FormLoginField from './commonComponet/CommonFormLoginField';
 import FormControl from "@mui/material/FormControl"; 
-import InputLabel from "@mui/material/InputLabel"
-import Select from '@mui/material/Select';
+import { TextField } from '@mui/material';
+import CommonButton from './commonComponet/CommonButton';
 
 const LoginForm = () => {
     const { handleSubmit, control, errors, error, onSubmit } = useLoginForm();
@@ -31,11 +29,8 @@ const LoginForm = () => {
 
     return (
            <>
-            <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
-                Login
-            </Typography>
 
-            <form onSubmit={handleSubmit(handleLoginSubmit)} style={{ width: '100%' }}>
+            <form onSubmit={handleSubmit(handleLoginSubmit)}>
                 {error && (
                     <Typography color="error" style={{ marginBottom: '10px' }}>
                         {error}
@@ -59,29 +54,27 @@ const LoginForm = () => {
                 />
 
                 <FormControl fullWidth margin="normal">
-                    <InputLabel id="role-label">Role</InputLabel>
                     <Controller
                         name="role"
                         control={control}
                         render={({ field }) => (
-                            <Select
+                            <TextField
                                 {...field}
-                                labelId="role-label"
+                                select
+                                label="Role"
                                 id="role"
                                 variant="outlined"
                                 error={!!errors.role}
                             >
                                 <MenuItem value="admin">Admin</MenuItem>
                                 <MenuItem value="user">User</MenuItem>
-                            </Select>
+                            </TextField>
                         )}
                     />
                 </FormControl>
-
-                <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ width: '100%', marginTop: '10px', position: 'relative' }}>
-                    {loading && <Loader />}
+                <CommonButton type="submit" loading={loading}>
                     Login
-                </Button>
+                </CommonButton>
             </form>
            </>
         

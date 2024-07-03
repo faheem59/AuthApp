@@ -8,10 +8,11 @@ const Loader: React.FC = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-               
+                overflow: "hidden"
+                
             }}
         >
-            <CircularProgress />
+            <CircularProgress size={24} />
         </Box>
     );
 };

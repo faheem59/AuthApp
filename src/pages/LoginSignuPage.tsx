@@ -15,8 +15,8 @@ const LoginSignupPage: React.FC<Props> = ({ formType }) => {
     const navigate = useNavigate();
 
     return (
-        <Container maxWidth="sm" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <Card sx={{ width: '100%', padding: 3 }}>
+        <Container maxWidth="xs" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop:1}}>
+            <Card sx={{ width: '100%',  overflow:'hidden'}}>
                 <CardHeader
                     title={
                         <Box display="flex" justifyContent="space-between">
@@ -25,9 +25,8 @@ const LoginSignupPage: React.FC<Props> = ({ formType }) => {
                                 onClick={() => navigate('/login')}
                                 sx={{
                                     cursor: 'pointer',
-                                    textDecoration: formType === 'login' ? 'underline' : 'none',
                                     fontWeight: formType === 'login' ? 'bold' : 'normal',
-                                    color: formType === 'login' ? "#007BFF" : 'rgba(0,0,0,0.5)'
+                                    color: formType === 'login' ? "black" : 'rgba(0,0,0,0.5)'
                                 }}
                             >
                                 Login
@@ -37,9 +36,8 @@ const LoginSignupPage: React.FC<Props> = ({ formType }) => {
                                 onClick={() => navigate('/signup')}
                                 sx={{
                                     cursor: 'pointer',
-                                    textDecoration: formType === 'signup' ? 'underline' : 'none',
                                     fontWeight: formType === 'signup' ? 'bold' : 'normal',
-                                    color: formType === 'signup' ? "#007BFF" : 'rgba(0,0,0,0.5)' 
+                                    color: formType === 'signup' ? "black" : 'rgba(0,0,0,0.5)' 
                                 }}
                             >
                                 Signup

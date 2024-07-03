@@ -3,23 +3,22 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext';
 import { UserDataUpdate } from '../utils/Types';
 import { useProfilePage } from '../utils/CustomHooks/useProfilePage';
 import localforage from 'localforage';
 import Loader from '../components/commonComponet/Loader';
-import FormFieldProfile from '../components/commonComponet/FormFieldProfile';
+import FormFieldProfile from '../components/commonComponet/CommonFormFieldProfile';
+import CommonButton from '../components/commonComponet/CommonButton';
 
 const ProfilePage = () => {
-    const { user, users } = useAuth();
+    const { user, users} = useAuth(); 
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const { id: requestedUserId } = useParams<{ id: string }>();
 
-   
-    const { control, handleSubmit, userData } = useProfilePage(
+    const { control, handleSubmit, userData, setUserData } = useProfilePage(
         {
             id: undefined,
             name: '',
@@ -34,7 +33,7 @@ const ProfilePage = () => {
     const toggleEditMode = () => {
         setLoading(true);
         setTimeout(() => {
-            setEditMode((prev) => !prev);
+            setEditMode(prev => !prev);
             setLoading(false);
         }, 1000);
     };
@@ -44,8 +43,14 @@ const ProfilePage = () => {
 
         try {
             const updatedUserData = { ...userData, ...data };
-            const updatedUsers = users.map((u) => (u.id === userData.id ? updatedUserData : u));
+            const updatedUsers = users.map(u => (u.id === userData.id ? updatedUserData : u));
+
+            // Update localforage
             await localforage.setItem('users', updatedUsers);
+
+            // Update context state
+            setUserData(updatedUserData);
+
             setEditMode(false);
         } catch (error) {
             console.error('Failed to update user data:', error);
@@ -53,20 +58,17 @@ const ProfilePage = () => {
             setLoading(false);
         }
     };
-   
 
     if (!user) {
         return <Loader />;
     }
-    /* Handle case only admin change the profileId to access the userList
-     and when id is greater then users.length then Loader will come
-     */
+
     if ((user.role === 'admin' || userData?.id === user.id) && userData &&
-    (requestedUserId || "") <= users.length.toString()) {
+        (requestedUserId || "") <= users.length.toString()) {
         return (
             <>
-                <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-                    <Grid item xs={10} sm={8} md={6} lg={4}>
+                <Grid container justifyContent="center" alignItems="center" style={{ marginTop: 20 }}>
+                    <Grid item xs={10} sm={8} md={6} lg={4} boxShadow={'none'}>
                         <Card>
                             <CardContent>
                                 <Typography variant="h4" gutterBottom align="center">
@@ -86,19 +88,20 @@ const ProfilePage = () => {
                                             defaultValue={userData.password}
                                             type="password"
                                         />
-                                        <Button onClick={toggleEditMode} type="submit" variant="contained" color="primary" disabled={loading}>
-                                            Save
-                                        </Button>
-                                        <Button
+                                        <CommonButton
+                                            type="submit"
                                             onClick={toggleEditMode}
-                                            variant="contained"
-                                            color="secondary"
-                                            style={{ marginLeft: '10px' }}
-                                            disabled={loading}
+                                        >
+                                            Save
+                                        </CommonButton>
+                                        <CommonButton
+                                            onClick={() => {
+                                                setEditMode(false);
+                                                setUserData(userData); // Reset form fields to original values
+                                            }}
                                         >
                                             Cancel
-                                        </Button>
-
+                                        </CommonButton>
                                     </form>
                                 ) : (
                                     <div>
@@ -111,17 +114,12 @@ const ProfilePage = () => {
                                         <Typography variant="body1">
                                             <strong>Phone:</strong> {userData.phone}
                                         </Typography>
-                                        
-                                            <Button
-                                                onClick={toggleEditMode}
-                                                variant="contained"
-                                                color="primary"
-                                                sx={{ marginTop: '10px', width: "100%" }}
-                                                disabled={loading}
-                                            >
-                                                {loading && <Loader />} Edit
-                                            </Button>
-                                      
+                                        <CommonButton
+                                            onClick={toggleEditMode}
+                                            loading={loading}
+                                        >
+                                            Edit
+                                        </CommonButton>
                                     </div>
                                 )}
                             </CardContent>
@@ -132,7 +130,11 @@ const ProfilePage = () => {
         );
     }
 
-    return <Loader />;
+    return (
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
+            <Loader />
+        </Grid>
+    );
 };
 
 export default ProfilePage;

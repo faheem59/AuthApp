@@ -12,7 +12,7 @@ export interface FormErrors {
     email?: string;
     phone?: string;
     password?: string;
-    role?: string;
+    role?: 'admin' | 'user';
 }
 
 export interface LoginFormInput {
@@ -27,7 +27,7 @@ export interface UserDataUpdate {
     email: string;
     phone: string;
     password: string;
-    role?: "user" | "admin"; 
+    role?: 'admin' | 'user'; 
 }
 
 export interface Props {

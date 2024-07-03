@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel"
-import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography" ;
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,8 +9,10 @@ import { useAuth } from '../utils/AuthContext';
 import { UserData } from '../utils/Types';
 import { useNavigate } from 'react-router-dom';
 import { SignUpschema } from '../utils/schemas/loginSignupSchema';
-import FormField from './commonComponet/FormField';
+import FormField from './commonComponet/CommonFormField';
 import Loader from '../components/commonComponet/Loader'; 
+import { TextField } from '@mui/material';
+import CommonButton from './commonComponet/CommonButton';
 
 const SignupForm = () => {
     const navigate = useNavigate();
@@ -50,6 +49,7 @@ const SignupForm = () => {
                 setLoading(false); 
                 return;
             }
+            
 
             const newUser: UserData = { ...data, id: (existingUsers.length + 1).toString() };
             await localforage.setItem('users', [...existingUsers, newUser]);
@@ -66,10 +66,6 @@ const SignupForm = () => {
 
     return (
         <>
-           
-            <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
-                    SignUp
-                </Typography>
             {loading && <Loader />} 
             <form onSubmit={handleSubmit(onSubmit)}>
                 {error && <Typography color="error">{error}</Typography>}
@@ -102,31 +98,28 @@ const SignupForm = () => {
                     helperText={errors.password?.message}
                 />
                 <FormControl fullWidth margin="normal">
-                    <InputLabel id="role-label">Role</InputLabel>
                     <Controller
                         name="role"
                         control={control}
                         render={({ field }) => (
-                            <Select
+                            <TextField
                                 {...field}
-                                labelId="role-label"
+                                select
+                                label="Role"
                                 id="role"
                                 variant="outlined"
                                 error={!!errors.role}
                             >
                                 <MenuItem value="admin">Admin</MenuItem>
                                 <MenuItem value="user">User</MenuItem>
-                            </Select>
+                            </TextField>
                         )}
                     />
                 </FormControl>
 
-                    <Button type="submit" variant="contained" color="primary"
-                        disabled={loading}
-                        sx={{ width: '100%', marginTop: '10px', }}>
-                        SignUp
-                        {loading && <Loader />}
-                    </Button>
+                <CommonButton type="submit" loading={loading}>
+                    SignUp
+                </CommonButton>
             </form>
         
         </>
