@@ -14,7 +14,6 @@ import FormFieldProfile from '../components/commonComponet/FormFieldProfile';
 
 const ProfilePage = () => {
     const { user, users } = useAuth();
-    //const navigate = useNavigate();
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const { id: requestedUserId } = useParams<{ id: string }>();
@@ -48,19 +47,24 @@ const ProfilePage = () => {
             const updatedUsers = users.map((u) => (u.id === userData.id ? updatedUserData : u));
             await localforage.setItem('users', updatedUsers);
             setEditMode(false);
-            //console.log('User data updated successfully:', updatedUserData);
         } catch (error) {
             console.error('Failed to update user data:', error);
         } finally {
             setLoading(false);
         }
     };
-    console.log("1111111",userData)
+    if (!userData) {
+        return <Loader />;
+    }
 
     if (!user) {
         return <Loader />;
     }
-    if ((user.role === 'admin' || userData?.id === user.id) && userData) {
+    /* Handle case only admin change the profileId to access the userList
+     and when id is greater then users.length then Loader will come
+     */
+    if ((user.role === 'admin' || userData?.id === user.id) && userData &&
+    (requestedUserId || "") <= users.length.toString()) {
         return (
             <>
                 <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
