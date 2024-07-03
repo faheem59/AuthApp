@@ -30,12 +30,10 @@ export const useProfilePage = (initialValues: UserDataUpdate, userId: string): P
             }
         };
 
-        if (userId) {
-            fetchUserData();
-        }
+        fetchUserData();
 
 
-    }, [userId, reset]);
+    }, [userId, users, reset]);
 
     return { control, handleSubmit, reset, userData, ...rest };
 };

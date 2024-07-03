@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField" 
 import MenuItem from '@mui/material/MenuItem';
 import { useLoginForm } from '../utils/CustomHooks/useLoginFrom';
 import { Controller } from 'react-hook-form';
 import { LoginFormInput } from '../utils/Types';
 import Loader from '../components/commonComponet/Loader';
 import FormLoginField from './commonComponet/FormLoginField';
+import FormControl from "@mui/material/FormControl"; 
+import InputLabel from "@mui/material/InputLabel"
+import Select from '@mui/material/Select';
+
 const LoginForm = () => {
     const { handleSubmit, control, errors, error, onSubmit } = useLoginForm();
     const [loading, setLoading] = useState(false);
@@ -28,18 +30,8 @@ const LoginForm = () => {
     };
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-                padding: '5px',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-            }}
-        >
-            <Typography variant="h5" gutterBottom>
+           <>
+            <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
                 Login
             </Typography>
 
@@ -66,37 +58,33 @@ const LoginForm = () => {
                     helperText={errors.password?.message}
                 />
 
-                <FormLoginField
-                    name="role"
-                    control={control}
-                    label="Role"
-                    error={!!errors.role}
-                    render={({ field }) => (
-                        <Controller
-                            {...field}
-                            as={
-                                <TextField
-                                    select
-                                    label="Role"
-                                    variant="outlined"
-                                    error={!!errors.role}
-                                    helperText={errors.role?.message}
-                                    size="small"
-                                >
-                                    <MenuItem value="admin">Admin</MenuItem>
-                                    <MenuItem value="user">User</MenuItem>
-                                </TextField>
-                            }
-                        />
-                    )}
-                />
+                <FormControl fullWidth margin="normal">
+                    <InputLabel id="role-label">Role</InputLabel>
+                    <Controller
+                        name="role"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                {...field}
+                                labelId="role-label"
+                                id="role"
+                                variant="outlined"
+                                error={!!errors.role}
+                            >
+                                <MenuItem value="admin">Admin</MenuItem>
+                                <MenuItem value="user">User</MenuItem>
+                            </Select>
+                        )}
+                    />
+                </FormControl>
 
                 <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ width: '100%', marginTop: '10px', position: 'relative' }}>
-                    {loading && <Loader/>}
+                    {loading && <Loader />}
                     Login
                 </Button>
             </form>
-        </Box>
+           </>
+        
     );
 };
 

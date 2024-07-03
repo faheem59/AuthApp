@@ -31,7 +31,7 @@ const FormFieldProfile: React.FC<FormFieldProps> = ({
             <Controller
                 name={name}
                 control={control}
-                defaultValue={defaultValue} // Pass defaultValue to Controller
+                defaultValue={defaultValue} 
                 render={({ field }) => (
                     <TextField
                         {...field}

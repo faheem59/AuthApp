@@ -27,7 +27,7 @@ const LoginSignupPage: React.FC<Props> = ({ formType }) => {
                                     cursor: 'pointer',
                                     textDecoration: formType === 'login' ? 'underline' : 'none',
                                     fontWeight: formType === 'login' ? 'bold' : 'normal',
-                                    color: formType === 'login' ? "blue" : 'red'
+                                    color: formType === 'login' ? "#007BFF" : 'rgba(0,0,0,0.5)'
                                 }}
                             >
                                 Login
@@ -39,7 +39,7 @@ const LoginSignupPage: React.FC<Props> = ({ formType }) => {
                                     cursor: 'pointer',
                                     textDecoration: formType === 'signup' ? 'underline' : 'none',
                                     fontWeight: formType === 'signup' ? 'bold' : 'normal',
-                                    color: formType === 'signup' ? "blue" : 'red'
+                                    color: formType === 'signup' ? "#007BFF" : 'rgba(0,0,0,0.5)' 
                                 }}
                             >
                                 Signup

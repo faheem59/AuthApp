@@ -6,7 +6,6 @@ import InputLabel from "@mui/material/InputLabel"
 import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography" ;
-import Box  from '@mui/material/Box';
 import { yupResolver } from '@hookform/resolvers/yup';
 import localforage from 'localforage';
 import { useAuth } from '../utils/AuthContext';
@@ -67,18 +66,8 @@ const SignupForm = () => {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '100%',
-                    padding: '5px',
-                    borderRadius: '8px',
-                    backgroundColor: '#fff',
-                }}
-            >
-                <Typography variant="h5" gutterBottom>
+           
+            <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
                     SignUp
                 </Typography>
             {loading && <Loader />} 
@@ -139,7 +128,7 @@ const SignupForm = () => {
                         {loading && <Loader />}
                     </Button>
             </form>
-            </Box>
+        
         </>
     );
 };

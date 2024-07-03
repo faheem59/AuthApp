@@ -55,6 +55,7 @@ const ProfilePage = () => {
             setLoading(false);
         }
     };
+    console.log("1111111",userData)
 
     if (!user) {
         return <Loader />;
