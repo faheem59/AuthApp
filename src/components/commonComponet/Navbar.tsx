@@ -3,7 +3,6 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"; 
 import IconButton  from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import PersonIcon from '@mui/icons-material/Person'; 
 import { useAuth } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,16 +33,7 @@ const Navbar = () => {
                         <ExitToAppIcon />
                     </IconButton>
                 )}
-                {isAdmin && ( 
-                    <IconButton
-                        size="large"
-                        edge="end"
-                        color="inherit"
-                        aria-label="admin"
-                    >
-                        <PersonIcon />
-                    </IconButton>
-                )}
+        
             </Toolbar>
         </AppBar>
     );
